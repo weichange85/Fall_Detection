@@ -4,6 +4,7 @@ import cv2
 from PIL import Image, ImageTk
 
 from src.inference import run_inference
+from src.eval import evaluate_model
 
 class FallDetectionApp:
     def __init__(self, root):
@@ -19,6 +20,13 @@ class FallDetectionApp:
         self.image_label = tk.Label(root)
         self.image_label.pack(pady=10)
 
+        tk.Label(root, text="").pack(pady=10)  # spacer
+        
+        tk.Button(root, text="Evaluate Model", command=self.run_evaluation).pack(pady=5)
+
+        self.metrics_text = tk.Text(root, height=6, width=60)
+        self.metrics_text.pack(pady=10)
+
     def load_image(self):
         self.image_path = filedialog.askopenfilename(
             filetypes=[("Images", "*.jpg *.png *.jpeg")]
@@ -32,27 +40,20 @@ class FallDetectionApp:
     def run_inference(self):
         if not self.image_path:
             return
-
-        results = run_inference(self.image_path)
-        img = results[0].orig_img.copy()
-
-        for (x1, y1, x2, y2), conf in zip(
-            results[0].boxes.xyxy.cpu().numpy(),
-            results[0].boxes.conf.cpu().numpy()
-        ):
-            x1, y1, x2, y2 = map(int, [x1, y1, x2, y2])
-            cv2.rectangle(img, (x1, y1), (x2, y2), (0, 0, 255), 2)
-            cv2.putText(
-                img,
-                f"Fall ({conf:.2f})",
-                (x1, max(0, y1 - 10)),
-                cv2.FONT_HERSHEY_SIMPLEX,
-                0.6,
-                (0, 0, 255),
-                2
-            )
+        
+        img = run_inference(self.image_path)
 
         self.display(img)
+
+    def run_evaluation(self):
+        self.metrics_text.delete("1.0", tk.END)
+        self.metrics_text.insert(tk.END, "Running evaluation...\n")
+        self.root.update()
+
+        summary = evaluate_model()
+
+        self.metrics_text.delete("1.0", tk.END)
+        self.metrics_text.insert(tk.END, summary)
 
     def display(self, img):
         img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)

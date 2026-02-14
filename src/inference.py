@@ -32,17 +32,5 @@ def run_inference(image_path):
             1
         )
 
-    return img, results
+    return img
 
-
-# ---- Optional: allow standalone execution ----
-if __name__ == "__main__":
-    from config import INFERENCE_IMG_PATH
-    import matplotlib.pyplot as plt
-
-    img, _ = run_inference(INFERENCE_IMG_PATH)
-    img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-
-    plt.imshow(img_rgb)
-    plt.axis("off")
-    plt.show()
