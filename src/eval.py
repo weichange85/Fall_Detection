@@ -12,7 +12,8 @@ def evaluate_model():
         f"Precision: {metrics.mp:.4f}\n"
         f"Recall: {metrics.mr:.4f}\n"
         f"mAP@0.5: {metrics.map50:.4f}\n"
-        f"mAP@0.5:0.95: {metrics.map:.4f}"
+        f"mAP@0.5:0.95: {metrics.map:.4f}\n"
+        f"f1 score: {2 * (metrics.mp * metrics.mr) / (metrics.mp + metrics.mr + 1e-6):.4f}"
     )
 
     return summary

@@ -1,3 +1,5 @@
+import subprocess
+import os
 import tkinter as tk
 from tkinter import filedialog
 import cv2
@@ -11,6 +13,7 @@ class FallDetectionApp:
         self.root = root
         self.root.title("Fall Detection")
         self.root.geometry("800x700")
+        self.eval_frame = tk.Frame(root)
 
         self.image_path = None
 
@@ -54,6 +57,7 @@ class FallDetectionApp:
 
         self.metrics_text.delete("1.0", tk.END)
         self.metrics_text.insert(tk.END, summary)
+        self.show_eval_buttons()
 
     def display(self, img):
         img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -61,7 +65,45 @@ class FallDetectionApp:
         self.tk_img = ImageTk.PhotoImage(img_pil)
         self.image_label.config(image=self.tk_img)
 
+    def show_eval_buttons(self):
+        self.eval_frame.pack(pady=10)
+        tk.Button(self.eval_frame, 
+                  text="Show F1 confidence Curve", 
+                  command=lambda: self.open_image("runs/detect/val/BoxF1_curve.png")).pack(side=tk.LEFT, padx=5)
+        tk.Button(self.eval_frame, 
+                  text="Show Precision-Recall Curve", 
+                  command=lambda: self.open_image("runs/detect/val/BoxPR_curve.png")).pack(side=tk.LEFT, padx=5)
+        tk.Button(self.eval_frame, 
+                  text="Show Precision confidence Curve", 
+                  command=lambda: self.open_image("runs/detect/val/BoxP_curve.png")).pack(side=tk.LEFT, padx=5)
+        tk.Button(self.eval_frame, 
+                  text="Show Recall confidence Curve", 
+                  command=lambda: self.open_image("runs/detect/val/BoxR_curve.png")).pack(side=tk.LEFT, padx=5)
+        tk.Button(self.eval_frame, 
+                  text="Show Confusion matrix (Normalized)", 
+                  command=lambda: self.open_image("runs/detect/val/confusion_matrix_normalized.png")).pack(side=tk.LEFT, padx=5)
+        tk.Button(self.eval_frame, 
+                  text="Show Confision matrix", 
+                  command=lambda: self.open_image("runs/detect/val/confusion_matrix.png")).pack(side=tk.LEFT, padx=5)
+        tk.Button(self.eval_frame, 
+                  text="Show Example Batch 1", 
+                  command=lambda: self.open_image("runs/detect/val/val_batch0_pred.jpg")).pack(side=tk.LEFT, padx=5)
+        tk.Button(self.eval_frame, 
+                  text="Show Example Batch 2", 
+                  command=lambda: self.open_image("runs/detect/val/val_batch1_pred.jpg")).pack(side=tk.LEFT, padx=5)
+        tk.Button(self.eval_frame, 
+                  text="Show Example Batch 3", 
+                  command=lambda: self.open_image("runs/detect/val/val_batch2_pred.jpg")).pack(side=tk.LEFT, padx=5)
+        
+    def open_image(self, path):
+        full_path = os.path.abspath(path)
 
+        if os.path.exists(full_path):
+            os.startfile(full_path)
+        else:
+            print("File not found:", full_path)
+
+            
 if __name__ == "__main__":
     root = tk.Tk()
     FallDetectionApp(root)
