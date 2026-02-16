@@ -69,31 +69,31 @@ class FallDetectionApp:
         self.eval_frame.pack(pady=10)
         tk.Button(self.eval_frame, 
                   text="Show F1 confidence Curve", 
-                  command=lambda: self.open_image("runs/detect/val/BoxF1_curve.png")).pack(side=tk.LEFT, padx=5)
+                  command=lambda: self.open_image("runs/detect/val/BoxF1_curve.png")).pack(padx=5)
         tk.Button(self.eval_frame, 
                   text="Show Precision-Recall Curve", 
-                  command=lambda: self.open_image("runs/detect/val/BoxPR_curve.png")).pack(side=tk.LEFT, padx=5)
+                  command=lambda: self.open_image("runs/detect/val/BoxPR_curve.png")).pack(padx=5)
         tk.Button(self.eval_frame, 
                   text="Show Precision confidence Curve", 
-                  command=lambda: self.open_image("runs/detect/val/BoxP_curve.png")).pack(side=tk.LEFT, padx=5)
+                  command=lambda: self.open_image("runs/detect/val/BoxP_curve.png")).pack(padx=5)
         tk.Button(self.eval_frame, 
                   text="Show Recall confidence Curve", 
-                  command=lambda: self.open_image("runs/detect/val/BoxR_curve.png")).pack(side=tk.LEFT, padx=5)
+                  command=lambda: self.open_image("runs/detect/val/BoxR_curve.png")).pack(padx=5)
         tk.Button(self.eval_frame, 
                   text="Show Confusion matrix (Normalized)", 
-                  command=lambda: self.open_image("runs/detect/val/confusion_matrix_normalized.png")).pack(side=tk.LEFT, padx=5)
+                  command=lambda: self.open_image("runs/detect/val/confusion_matrix_normalized.png")).pack(padx=5)
         tk.Button(self.eval_frame, 
                   text="Show Confision matrix", 
-                  command=lambda: self.open_image("runs/detect/val/confusion_matrix.png")).pack(side=tk.LEFT, padx=5)
+                  command=lambda: self.open_image("runs/detect/val/confusion_matrix.png")).pack(padx=5)
         tk.Button(self.eval_frame, 
                   text="Show Example Batch 1", 
-                  command=lambda: self.open_image("runs/detect/val/val_batch0_pred.jpg")).pack(side=tk.LEFT, padx=5)
+                  command=lambda: self.open_image("runs/detect/val/val_batch0_pred.jpg")).pack(padx=5)
         tk.Button(self.eval_frame, 
                   text="Show Example Batch 2", 
-                  command=lambda: self.open_image("runs/detect/val/val_batch1_pred.jpg")).pack(side=tk.LEFT, padx=5)
+                  command=lambda: self.open_image("runs/detect/val/val_batch1_pred.jpg")).pack(padx=5)
         tk.Button(self.eval_frame, 
                   text="Show Example Batch 3", 
-                  command=lambda: self.open_image("runs/detect/val/val_batch2_pred.jpg")).pack(side=tk.LEFT, padx=5)
+                  command=lambda: self.open_image("runs/detect/val/val_batch2_pred.jpg")).pack(padx=5)
         
     def open_image(self, path):
         full_path = os.path.abspath(path)
